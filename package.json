@@ -1,0 +1,31 @@
+{
+  "name": "grunt-bunyan",
+  "version": "0.1.0",
+  "description": "Grunt task to pipe grunt output through bunyan cli",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pwmckenna/grunt-bunyan.git"
+  },
+  "keywords": [
+    "gruntplugin",
+    "bunyan",
+    "logging",
+    "logger"
+  ],
+  "author": "Patrick Williams <pwmckenna@gmail.com>",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/pwmckenna/grunt-bunyan",
+  "bugs": "https://github.com/pwmckenna/grunt-bunyan/issues",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
