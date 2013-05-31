@@ -1,7 +1,9 @@
 'use strict';
+
+var spawn = require('child_process').spawn;
+
 module.exports = function (grunt) {
     grunt.registerTask('bunyan', function (name) {
-        console.log('name', name);
         var args = [
             '-o',
             'short'
