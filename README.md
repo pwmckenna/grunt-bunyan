@@ -21,6 +21,13 @@ grunt.loadNpmTasks('grunt-bunyan');
 Usage
 -----
 ```bs
-grunt bunyan other
+grunt bunyan ...
 ```
-where `other` is a task that outputs bunyan logging
+where the `bunyan` task is followed by tasks that output bunyan logging
+
+Filtering
+-----
+To filter by bunyan log name, simply specify the name as follows
+```bs
+grunt bunyan:log_name ...
+```
