@@ -28,7 +28,7 @@ module.exports = function (grunt) {
 
         if (options.conditions) {
             _.each(options.conditions, function (value, key) {
-                args.push('-c');
+                args.push('--condition');
                 args.push('this.' + key + ' === ' + JSON.stringify(value));
             });
         }
