@@ -18,16 +18,28 @@ Then add this line to your project's *Gruntfile.js*:
 grunt.loadNpmTasks('grunt-bunyan');
 ```
 
+Configuration
+-----
+```js
+grunt.initConfig({
+    bunyan: {
+        options: {
+            strict: true // prevent non-bunyan logs from being outputted
+        },
+        'bunyan-log-name-1': {
+            level: 'trace', // show all the things!
+            output: 'short', // least verbose
+            conditions: {
+                name: 'bunyan-log-name-1' // only output by this bunyan log instance will be displayed
+            }
+        }
+  }
+});
+```
 Usage
 -----
 ```bs
-grunt bunyan ...
+grunt bunyan:bunyan-log-name-1 ...
 ```
-where the `bunyan` task is followed by tasks that output bunyan logging
+where the `bunyan` task is followed by tasks that output bunyan logging that you wish to filter
 
-Filtering
------
-To filter by bunyan log name, simply specify the name as follows
-```bs
-grunt bunyan:log_name ...
-```
