@@ -1,28 +1,57 @@
 'use strict';
 
+var fs = require('fs');
 var spawn = require('child_process').spawn;
+var _ = require('lodash');
 
 module.exports = function (grunt) {
-    grunt.registerTask('bunyan', function (name) {
-        var args = [
-            '-o',
-            'short'
-        ];
-        if (name) {
-            args.push('-c');
-            args.push('\'this.name === "' + name + '"\'');
-        }
-        var child = spawn('./node_modules/bunyan/bin/bunyan', args);
+    grunt.registerMultiTask('bunyan', function () {
+        console.log('BUNYAN', this.options());
+        var args = [];
+        var options = {};
+        _.extend(options, this.options());
+        _.extend(options, this.data);
 
-        var write = process.stdout.write;
+        if (options.strict) {
+            args.push('--strict');
+        }
+
+        if (options.level) {
+            args.push('--level');
+            args.push(options.level);
+        }
+
+        if (options.output) {
+            args.push('--output');
+            args.push(options.output);
+        }
+
+        if (options.conditions) {
+            _.each(options.conditions, function (value, key) {
+                args.push('-c');
+                args.push('this.' + key + ' === ' + JSON.stringify(value));
+            });
+        }
+
+        console.log('pwd', process.cwd(), 'args', args);
+        var path = './node_modules/bunyan/bin/bunyan';
+        if (!fs.existsSync(path)) {
+            throw new Error('bundle binary not found');
+        }
+        var child = spawn(path, args);
+
+        var stdoutWrite = process.stdout.write;
         process.stdout.write = function () {
             child.stdin.write.apply(child.stdin, arguments);
         };
         child.stdout.on('data', function (data) {
-            write.call(process.stdout, data);
+            stdoutWrite.call(process.stdout, data);
         });
-        process.on('exit', function (code) {
-            child.kill(code);
+        child.stderr.on('data', function (data) {
+            process.stderr.write(data);
+        });
+        process.on('close', function (code) {
+            child.stdin.end();
         });
     });
 };
