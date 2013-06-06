@@ -5,12 +5,13 @@ var spawn = require('child_process').spawn;
 var _ = require('lodash');
 
 module.exports = function (grunt) {
-    grunt.registerMultiTask('bunyan', function () {
-        console.log('BUNYAN', this.options());
+
+    var stdoutWrite = process.stdout.write;
+    var conditions = [];
+    grunt.registerTask('bunyan', function () {
+        var options = grunt.config('bunyan');
+        var names = this.args;
         var args = [];
-        var options = {};
-        _.extend(options, this.options());
-        _.extend(options, this.data);
 
         if (options.strict) {
             args.push('--strict');
@@ -26,21 +27,30 @@ module.exports = function (grunt) {
             args.push(options.output);
         }
 
-        if (options.conditions) {
-            _.each(options.conditions, function (value, key) {
-                args.push('--condition');
-                args.push('this.' + key + ' === ' + JSON.stringify(value));
+        if (names) {
+            _.each(names, function (name) {
+                conditions.push('this.name === ' + JSON.stringify(name));
             });
         }
 
-        console.log('pwd', process.cwd(), 'args', args);
+        if (conditions.length > 0) {
+            args.push('--condition');
+            args.push(_.reduce(conditions, function (memo, condition) {
+                if (!memo) {
+                    return condition;
+                } else {
+                    return memo + ' || ' + condition;
+                }
+            }, null));
+        }
+
         var path = './node_modules/bunyan/bin/bunyan';
         if (!fs.existsSync(path)) {
             throw new Error('bundle binary not found');
         }
+
         var child = spawn(path, args);
 
-        var stdoutWrite = process.stdout.write;
         process.stdout.write = function () {
             child.stdin.write.apply(child.stdin, arguments);
         };
