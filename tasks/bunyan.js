@@ -9,24 +9,27 @@ module.exports = function (grunt) {
     var stdoutWrite = process.stdout.write;
     var conditions = [];
     grunt.registerTask('bunyan', function () {
-        var options = grunt.config('bunyan');
-        var names = this.args;
+        var options = grunt.config('bunyan') || {};
         var args = [];
 
-        if (options.strict) {
+        var strict = options.strict || grunt.option('strict');
+        if (strict) {
             args.push('--strict');
         }
 
-        if (options.level) {
+        var level = options.level || grunt.option('level');
+        if (level) {
             args.push('--level');
-            args.push(options.level);
+            args.push(level);
         }
 
-        if (options.output) {
+        var output = options.output || grunt.option('output');
+        if (output) {
             args.push('--output');
-            args.push(options.output);
+            args.push(output);
         }
 
+        var names = this.args;
         if (names) {
             _.each(names, function (name) {
                 conditions.push('this.name === ' + JSON.stringify(name));
