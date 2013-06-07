@@ -3,8 +3,7 @@ grunt-bunyan
 
 Grunt plugin for piping grunt output through bunyan cli.
 
-Installation
-------------
+## Installation
 
 Install grunt-bunyan using npm:
 
@@ -18,28 +17,31 @@ Then add this line to your project's *Gruntfile.js*:
 grunt.loadNpmTasks('grunt-bunyan');
 ```
 
-Configuration
------
+## Configuration
 ```js
 grunt.initConfig({
     bunyan: {
-        options: {
-            strict: true // prevent non-bunyan logs from being outputted
-        },
-        'bunyan-log-name-1': {
-            level: 'trace', // show all the things!
-            output: 'short', // least verbose
-            conditions: {
-                name: 'bunyan-log-name-1' // only output by this bunyan log instance will be displayed
-            }
-        }
-  }
+        strict: true // prevent non-bunyan logs from being outputted
+        level: 'trace', // show all the things!
+        output: 'short', // least verbose
+    }
 });
 ```
-Usage
------
+## Usage
 ```bs
-grunt bunyan:bunyan-log-name-1 ...
+grunt bunyan ...
 ```
 where the `bunyan` task is followed by tasks that output bunyan logging that you wish to filter
 
+#### Filtering by name
+```bs
+grunt bunyan:log-name
+```
+to show the output for multiple logs, just keep specifying log names
+```bs
+grunt bunyan:log-name1:log-name2:log-name3
+```
+you can also just combine grunt tasks to achieve the same thing
+```bs
+grunt bunyan:log-name1 bunyan:log-name2
+```
