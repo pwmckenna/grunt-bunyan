@@ -52,19 +52,14 @@ module.exports = function (grunt) {
             throw new Error('bundle binary not found');
         }
 
-        var child = spawn(path, args);
-
+        var child = spawn(path, args, {
+            stdio: ['pipe', process.stdout, process.stderr]
+        });
         process.stdout.write = function () {
             child.stdin.write.apply(child.stdin, arguments);
         };
-        child.stdout.on('data', function (data) {
-            stdoutWrite.call(process.stdout, data);
-        });
-        child.stderr.on('data', function (data) {
-            process.stderr.write(data);
-        });
-        process.on('close', function (code) {
-            child.stdin.end();
-        });
+        process.stderr.write = function () {
+            child.stdin.write.apply(child.stdin, arguments);
+        }
     });
 };
