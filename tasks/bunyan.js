@@ -58,8 +58,5 @@ module.exports = function (grunt) {
         process.stdout.write = function () {
             child.stdin.write.apply(child.stdin, arguments);
         };
-        process.stderr.write = function () {
-            child.stdin.write.apply(child.stdin, arguments);
-        }
     });
 };

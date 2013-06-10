@@ -1,6 +1,6 @@
 {
   "name": "grunt-bunyan",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Grunt task to pipe grunt output through bunyan cli",
   "repository": {
     "type": "git",
