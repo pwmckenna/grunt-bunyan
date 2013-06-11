@@ -4,10 +4,13 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var _ = require('lodash');
 
+var BLACKLIST_MARKER = '~';
+
 module.exports = function (grunt) {
 
     var stdoutWrite = process.stdout.write;
-    var conditions = [];
+    var whitelist = [];
+    var blacklist = [];
     grunt.registerTask('bunyan', function () {
         var options = grunt.config('bunyan') || {};
         var args = [];
@@ -32,20 +35,24 @@ module.exports = function (grunt) {
         var names = this.args;
         if (names) {
             _.each(names, function (name) {
-                conditions.push('this.name === ' + JSON.stringify(name));
+                if (name.indexOf(BLACKLIST_MARKER) === 0) {
+                    blacklist.push('this.name === ' + JSON.stringify(name.substr(1)));
+                } else {
+                    whitelist.push('this.name === ' + JSON.stringify(name));
+                }
             });
         }
 
-        if (conditions.length > 0) {
-            args.push('--condition');
-            args.push(_.reduce(conditions, function (memo, condition) {
-                if (!memo) {
-                    return condition;
-                } else {
-                    return memo + ' || ' + condition;
-                }
-            }, null));
-        }
+        var whitelistCondition = _.reduce(whitelist, function (memo, condition) {
+            return memo + ' || ' + condition;
+        }, 'false');
+        var blacklistCondition = _.reduce(blacklist, function (memo, condition) {
+            return memo + ' || ' + condition;
+        }, 'false');
+        var condition = '(true) && !(' + blacklistCondition + ')';
+
+        args.push('--condition');
+        args.push(condition);
 
         var path = './node_modules/bunyan/bin/bunyan';
         if (!fs.existsSync(path)) {
