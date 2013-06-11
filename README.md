@@ -29,19 +29,22 @@ grunt.initConfig({
 ```
 ## Usage
 ```bs
-grunt bunyan ...
+grunt bunyan [task] ...
 ```
 where the `bunyan` task is followed by tasks that output bunyan logging that you wish to filter
 
 #### Filtering by name
 ```bs
-grunt bunyan:log-name
+grunt bunyan:log-name [task] ...
 ```
 to show the output for multiple logs, just keep specifying log names
 ```bs
-grunt bunyan:log-name1:log-name2:log-name3
+grunt bunyan:log-name1:log-name2:log-name3 [task] ...
 ```
 you can also just combine grunt tasks to achieve the same thing
 ```bs
-grunt bunyan:log-name1 bunyan:log-name2
+grunt bunyan:log-name1 bunyan:log-name2 [task] ...
 ```
+to *hide* a specific log's output, use `~` before the log name
+```bs
+grunt bunyan:~unwanted-log-name [task] ...
