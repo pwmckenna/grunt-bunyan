@@ -7,7 +7,6 @@ var _ = require('lodash');
 var BLACKLIST_MARKER = '~';
 
 module.exports = function (grunt) {
-
     var stdoutWrite = process.stdout.write;
     var whitelist = [];
     var blacklist = [];
@@ -44,13 +43,13 @@ module.exports = function (grunt) {
         }
 
         var whitelistCondition = _.reduce(whitelist, function (memo, condition) {
-            return memo + ' || ' + condition;
-        }, 'false');
+            return memo ? memo + ' || ' + condition: condition;
+        });
         var blacklistCondition = _.reduce(blacklist, function (memo, condition) {
-            return memo + ' || ' + condition;
-        }, 'false');
-        var condition = '(true) && !(' + blacklistCondition + ')';
-
+            return memo ? memo + ' || ' + condition : condition;
+        });
+        var condition = '(' + (whitelistCondition ? whitelistCondition : true) + ')' + 
+            ' && !(' + (blacklistCondition ? blacklistCondition : false) + ')';
         args.push('--condition');
         args.push(condition);
 
