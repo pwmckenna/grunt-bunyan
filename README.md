@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-bunyan');
 ```js
 grunt.initConfig({
     bunyan: {
-        strict: true // prevent non-bunyan logs from being outputted
+        strict: true, // prevent non-bunyan logs from being outputted
         level: 'trace', // show all the things!
         output: 'short', // least verbose
     }
