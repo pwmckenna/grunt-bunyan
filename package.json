@@ -1,6 +1,6 @@
 {
   "name": "grunt-bunyan",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Grunt task to pipe grunt output through bunyan cli",
   "repository": {
     "type": "git",
@@ -21,14 +21,14 @@
     "lodash": "~1.2.1"
   },
   "peerDependencies": {
-    "grunt": "~0.4.0",
-    "bunyan": "~0.21.3"
+    "grunt": "~0.4.2",
+    "bunyan": "~0.22.1"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
-    "bunyan": "~0.21.3"
+    "grunt": "~0.4.2",
+    "bunyan": "~0.22.1"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   }
 }
