@@ -24,6 +24,7 @@ grunt.initConfig({
         strict: true, // prevent non-bunyan logs from being outputted
         level: 'trace', // show all the things!
         output: 'short', // least verbose
+        time: 'local', // Display logs in local time, rather than UTC
     }
 });
 ```

@@ -6,7 +6,8 @@ module.exports = function (grunt) {
         bunyan: {
             output: 'short',
             level: 'trace',
-            strict: true
+            strict: true,
+            time: 'local'
         }
     });
     grunt.registerTask('default', ['bunyan']);

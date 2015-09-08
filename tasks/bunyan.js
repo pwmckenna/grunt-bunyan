@@ -31,6 +31,12 @@ module.exports = function (grunt) {
             args.push(output);
         }
 
+        var time = options.time || grunt.option('time');
+        if (time) {
+            args.push('--time');
+            args.push(time);
+        }
+
         var names = this.args;
         if (names) {
             _.each(names, function (name) {
